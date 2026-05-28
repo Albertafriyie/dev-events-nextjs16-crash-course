@@ -9,11 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@opentelemetry/exporter-logs-otlp-http": "^0.218.0",
+    "@opentelemetry/resources": "^2.7.1",
+    "@opentelemetry/sdk-logs": "^0.218.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
+    "mongoose": "^9.6.3",
     "next": "16.2.6",
     "ogl": "^1.0.11",
+    "posthog-js": "^1.376.3",
+    "posthog-node": "^5.35.5",
     "radix-ui": "^1.4.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
