@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import LightRays from "@/components/LightRays";
 import Navbar from "@/components/Navbar";
+import { PHProvider } from "./providers";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -19,7 +20,7 @@ const martianMono = Martian_Mono({
 
 export const metadata: Metadata = {
   title: "DevEvent",
-  description: "The Hub For Every Dev Event You Cannot Miss",
+  description: "The Hub For Every Dev Event You Must Not Miss",
 };
 
 export default function RootLayout({
@@ -39,22 +40,24 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar />
-        <div className="absolute inset-0 top-0 z-[-1] pointer-events-none min-h-screen">
-          <LightRays
-            raysOrigin="top-center-offset"
-            raysColor="#5dfeca"
-            raysSpeed={0.5}
-            lightSpread={0.9}
-            rayLength={1.4}
-            followMouse={true}
-            mouseInfluence={0.02}
-            noiseAmount={0}
-            distortion={0.01}
-          />
-        </div>
+        <PHProvider>
+          <Navbar />
+          <div className="absolute inset-0 top-0 z-[-1] pointer-events-none min-h-screen">
+            <LightRays
+              raysOrigin="top-center-offset"
+              raysColor="#5dfeca"
+              raysSpeed={0.5}
+              lightSpread={0.9}
+              rayLength={1.4}
+              followMouse={true}
+              mouseInfluence={0.02}
+              noiseAmount={0}
+              distortion={0.01}
+            />
+          </div>
 
-        <main className="flex-1">{children}</main>
+          <main className="flex-1">{children}</main>
+        </PHProvider>
       </body>
     </html>
   );
