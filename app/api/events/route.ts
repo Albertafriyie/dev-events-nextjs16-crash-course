@@ -3,6 +3,12 @@ import Event from "@/database/event.model";
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * Create a new event document, optionally uploading a provided image to Cloudinary.
+ *
+ * @param req - Incoming NextRequest containing either `application/json` or `multipart/form-data` with event fields; when using form-data an `image` file may be included.
+ * @returns On success, a JSON response with `{ message: "Event Created Successfully", event }` and HTTP status `201`. Returns HTTP `400` with an error message for invalid JSON/form-data, missing image, or validation failures. Returns HTTP `500` with `{ message: "Event Creation Failed", error }` for unexpected server errors.
+ */
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
@@ -142,6 +148,11 @@ export async function POST(req: NextRequest) {
   }
 }
 
+/**
+ * Fetches all events ordered by newest first and returns them as JSON.
+ *
+ * @returns A JSON response containing `{ message: "Events fetched successfully", events }` with HTTP status `200` on success, or `{ message: "Event fetching failed", error }` with HTTP status `500` on failure.
+ */
 export async function GET() {
   try {
     await connectDB();

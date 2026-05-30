@@ -5,7 +5,13 @@ import Event from "@/database/event.model";
 import type { IEvent } from "@/database/event.model";
 import { cacheLife, cacheTag } from "next/cache";
 
-// ✅ Isolated cached data function
+/**
+ * Fetches all events from the database and returns them as plain JSON-serializable event objects.
+ *
+ * The returned events are ordered by `createdAt` descending (newest first).
+ *
+ * @returns An array of `IEvent` objects sorted by `createdAt` in descending order
+ */
 async function getEvents(): Promise<IEvent[]> {
   "use cache";
   cacheLife("hours");

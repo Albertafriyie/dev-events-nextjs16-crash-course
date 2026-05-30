@@ -71,7 +71,12 @@ const BookingCard = () => {
   );
 };
 
-// ─── Data Fetching ────────────────────────────────────────────────────────────
+/**
+ * Fetches event data for the given event slug from the API.
+ *
+ * @param slug - The event's slug used to locate the event resource
+ * @returns The parsed JSON response containing the event data, or `null` if the response is not OK
+ */
 
 async function getEvent(slug: string) {
   "use cache";
@@ -80,7 +85,15 @@ async function getEvent(slug: string) {
   return res.json();
 }
 
-// ─── Async Sub-components (params Promise resolved HERE, inside Suspense) ────
+/**
+ * Renders the event details layout for the given route slug, including banner, overview,
+ * event metadata, agenda, organizer info, tags, and a booking sidebar.
+ *
+ * If the fetched event is missing a description, triggers Next.js's `notFound()` to render a 404.
+ *
+ * @param params - A promise that resolves to an object with a `slug` property used to fetch the event
+ * @returns A React element containing the full event details layout
+ */
 
 async function EventContent({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; // ✅ resolved inside Suspense boundary
@@ -164,6 +177,12 @@ async function EventContent({ params }: { params: Promise<{ slug: string }> }) {
   );
 }
 
+/**
+ * Renders a "Similar Events" list for the event identified by the given slug.
+ *
+ * @param params - A promise that resolves to an object with a `slug` string used to fetch similar events
+ * @returns A React node containing a list of similar events, or `null` when no similar events are found
+ */
 async function SimilarEvents({
   params,
 }: {
