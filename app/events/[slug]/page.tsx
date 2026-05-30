@@ -4,6 +4,7 @@ import BookEvent from "@/components/BookEvent";
 import EventCard from "@/components/EventCard";
 import { IEvent } from "@/database/event.model";
 import { getSimilarEventBySlug } from "@/lib/actions/event.action";
+import { cacheLife } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -53,7 +54,7 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 
 // ─── Booking Card ─────────────────────────────────────────────────────────────
 
-const BookingCard = () => {
+const BookingCard = ({ eventId, slug }: { eventId: string; slug: string }) => {
   const bookings = 10;
 
   return (
@@ -66,7 +67,7 @@ const BookingCard = () => {
       ) : (
         <p className="text-sm">Be the first to book your spot!</p>
       )}
-      <BookEvent />
+      <BookEvent eventId={eventId} slug={slug} />
     </div>
   );
 };
@@ -90,6 +91,7 @@ async function EventContent({ params }: { params: Promise<{ slug: string }> }) {
 
   const {
     event: {
+      _id: eventId,
       description,
       image,
       overview,
@@ -157,7 +159,7 @@ async function EventContent({ params }: { params: Promise<{ slug: string }> }) {
 
         {/* Right Side */}
         <aside className="booking">
-          <BookingCard />
+          <BookingCard eventId={eventId} slug={slug} />
         </aside>
       </div>
     </>
@@ -188,12 +190,11 @@ async function SimilarEvents({
 
 // ─── Page Shell (no await, no runtime data accessed here at all) ──────────────
 
-const EventDetailsPage = ({
+const EventDetailsPage = async ({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) => {
-  // ✅ params Promise passed down — NOT awaited here
   return (
     <section id="event">
       <Suspense fallback={<p>Loading event...</p>}>
