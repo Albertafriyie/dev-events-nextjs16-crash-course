@@ -10,7 +10,16 @@ type Params = {
   }>;
 };
 
-/** GET /api/events/[slug] - return event details by slug */
+/**
+ * Fetches an event by slug and returns a JSON HTTP response.
+ *
+ * @param params - A promise resolving to the route parameters; the resolved object must contain `slug`.
+ * @returns A NextResponse with a JSON body:
+ * - 200: `{ message: "Event fetched successfully", event }`
+ * - 400: `{ message: "Missing or invalid slug parameter" }`
+ * - 404: `{ message: "Event not found for slug: <slug>" }`
+ * - 500: `{ message: "An unexpected error happened", error }`
+ */
 export async function GET(_req: NextRequest, { params }: Params) {
   try {
     // connect to MongoDB once per server lifecycle; connectDB caches the connection in development
